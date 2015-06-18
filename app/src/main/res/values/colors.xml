@@ -3,4 +3,5 @@
     <color name="colorPrimary">#ff8b3499</color>
     <color name="colorPrimaryDark">#ff5e2e6c</color>
     <color name="blacked">#ff474747</color>
+    <color name="primary_dark">#4a148c</color>
 </resources>

@@ -3,30 +3,48 @@ package lanet.com.newlibrarydemos.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lanet.com.newlibrarydemos.R;
+import lanet.com.newlibrarydemos.adapter.MyAdapter;
+import lanet.com.newlibrarydemos.models.Persons;
+import lanet.com.newlibrarydemos.views.DividerItemDecoration;
+
+import static android.view.GestureDetector.SimpleOnGestureListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SecondFragment extends Fragment
+public class SecondFragment extends Fragment implements RecyclerView.OnItemTouchListener, View.OnClickListener
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = SecondFragment.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    GestureDetectorCompat gestureDetector;
+    android.view.ActionMode actionMode;
 
     /**
      * Use this factory method to create a new instance of
@@ -56,12 +74,19 @@ public class SecondFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        Log.d(TAG, "We are in Second Fragment on Create");
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "We are in Second Fragment on Activity Create");
+    }
+
+    RecyclerView recyclerView;
+    ArrayList<Persons> datas = new ArrayList<>();
+    MyAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,37 +94,151 @@ public class SecondFragment extends Fragment
     {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_second, container, false);
-        WebView wv1 = (WebView) rootView.findViewById(R.id.wv1);
-        wv1.getSettings().setJavaScriptEnabled(true);
-        wv1.getSettings().setAllowFileAccess(true);
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 16)
-        {
-            wv1.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        }
-        wv1.setWebChromeClient(new WebChromeClient()
-        {
-            @SuppressWarnings("unused")
-            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon)
-            {
-            }
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress)
-            {
-                super.onProgressChanged(view, newProgress);
-                if (newProgress > 90)
-                {
-//                    pbarSearch.setVisibility(view.GONE);
-                }
-            }
-        });
-
-        wv1.loadDataWithBaseURL("",
-                "<Html><head><style type=\"text/css\">table td.iframe iframe{width:100% !important; height:100% !important; }</style></head><body><table width=\"100%\"height=\"100%\"><tr><td class=\"iframe\" style=\"height:100%\"><iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ZfkB4vltQTU?autoplay=1&controls=0&frameborder=0\" allowfullscreen></iframe></td></tr></table></body></html>",
-                "text/html", "utf-8", "");
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.scrollToPosition(0);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        datas = prepareData();
+        Log.v(TAG, "Datas length:" + datas.size());
+        adapter = new MyAdapter(datas);
+        recyclerView.setAdapter(adapter);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addOnItemTouchListener(this);
+        gestureDetector =
+                new GestureDetectorCompat(getActivity(), new RecyclerViewDemoOnGestureListener());
+        Log.d(TAG, "can we scoll ? " + recyclerView.getLayoutManager().canScrollVertically());
         return rootView;
     }
 
+    public ArrayList<Persons> prepareData()
+    {
+        ArrayList<Persons> personList = new ArrayList<>();
 
+        for (int i = 0; i < 15; i++)
+        {
+            Persons persons = new Persons();
+            persons.name = "Name" + i;
+            persons.address = "Address" + i;
+            personList.add(persons);
+        }
+        return personList;
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent)
+    {
+        gestureDetector.onTouchEvent(motionEvent);
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent)
+    {
+
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean b)
+    {
+
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+
+    }
+
+    android.view.ActionMode.Callback callBack = new android.view.ActionMode.Callback()
+    {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu)
+        {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_cab_recyclerviewdemoactivity, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+        {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+        {
+            switch (item.getItemId())
+            {
+                case R.id.menu_delete:
+                    List<Integer> selectedItemPositions = adapter.getSelectedItems();
+                    int currPos;
+                    for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
+                    {
+                        currPos = selectedItemPositions.get(i);
+//                RecyclerViewDemoApp.removeItemFromList(currPos);
+                        adapter.removeData(currPos);
+                    }
+                    mode.finish();
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode)
+        {
+            mode = null;
+            actionMode = null;
+            adapter.clearSelections();
+        }
+    };
+
+    private class RecyclerViewDemoOnGestureListener extends SimpleOnGestureListener
+    {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e)
+        {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            onClick(view, recyclerView.getChildLayoutPosition(view));
+            return super.onSingleTapConfirmed(e);
+        }
+
+        public void onLongPress(MotionEvent e)
+        {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (actionMode != null)
+            {
+                return;
+            }
+            // Start the CAB using the ActionMode.Callback defined above
+            actionMode = getActivity().startActionMode(callBack);
+            int idx = recyclerView.getChildAdapterPosition(view);
+            myToggleSelection(idx);
+            super.onLongPress(e);
+        }
+    }
+
+    private void onClick(View view, int childLayoutPosition)
+    {
+        Log.d(TAG, "We click on :" + childLayoutPosition);
+        int idx = recyclerView.getChildAdapterPosition(view);
+        if (actionMode != null) {
+            myToggleSelection(idx);
+            return;
+        }
+    }
+
+    private void myToggleSelection(int idx)
+    {
+        adapter.toggleSelection(idx);
+        String title = getString(R.string.selected_count, adapter.getSelectedItemCount());
+        actionMode.setTitle(title);
+    }
 }
