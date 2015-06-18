@@ -18,7 +18,7 @@ import lanet.com.newlibrarydemos.R;
 import lanet.com.newlibrarydemos.views.NotifyingScrollView;
 
 /*
-Want to commit it again
+Fixed All issues in hotfix
  */
 public class MainFragment extends Fragment
 {
