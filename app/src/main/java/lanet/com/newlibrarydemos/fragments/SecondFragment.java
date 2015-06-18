@@ -101,7 +101,7 @@ public class SecondFragment extends Fragment implements RecyclerView.OnItemTouch
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         datas = prepareData();
-        Log.v(TAG, "Datas length:" + datas.size());
+        Log.v(TAG, "Data's length:" + datas.size());
         adapter = new MyAdapter(datas);
         recyclerView.setAdapter(adapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
@@ -110,7 +110,7 @@ public class SecondFragment extends Fragment implements RecyclerView.OnItemTouch
         recyclerView.addOnItemTouchListener(this);
         gestureDetector =
                 new GestureDetectorCompat(getActivity(), new RecyclerViewDemoOnGestureListener());
-        Log.d(TAG, "can we scoll ? " + recyclerView.getLayoutManager().canScrollVertically());
+        Log.d(TAG, "can we scroll ? " + recyclerView.getLayoutManager().canScrollVertically());
         return rootView;
     }
 
