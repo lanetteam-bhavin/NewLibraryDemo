@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">NewLibraryDemos</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_xfermodes">Xfermodes</string>
+    <string name="title_activity_picture">PictureActivity</string>
+    <array name="animation_type">
+        <item>SCALEX</item>
+        <item>SCALEY</item>
+        <item>SCALEXY</item>
+        <item>FADE</item>
+        <item>FLIPHORIZONTAL</item>
+        <item>FLIPVERTICAL</item>
+        <item>SLIDEVERTICAL</item>
+        <item>SLIDEHORIZONTAL</item>
+        <item>SLIDEHORIZONTALPUSHTOP</item>
+        <item>SLIDEVERTICALPUSHLEFT</item>
+        <item>GLIDE</item>
+        <item>SLIDING</item>
+        <item>STACK</item>
+        <item>CUBE</item>
+        <item>ROTATEDOWN</item>
+        <item>ROTATEUP</item>
+        <item>ACCORDION</item>
+        <item>TABLEHORIZONTAL</item>
+        <item>TABLEVERTICAL</item>
+        <item>ZOOMFROMLEFTCORNER</item>
+        <item>ZOOMFROMRIGHTCORNER</item>
+        <item>ZOOMSLIDEHORIZONTAL</item>
+        <item>ZOOMSLIDEVERTICAL</item>
+    </array>
+</resources>
