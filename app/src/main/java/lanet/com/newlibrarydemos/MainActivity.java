@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             isshowFirst = !isshowFirst;
             mFragmentTransaction.addToBackStack(null);
             mFragmentTransaction.commit();
-            return false;
+            return true;
         }
     };
 

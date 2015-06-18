@@ -33,4 +33,6 @@
         <item>ZOOMSLIDEHORIZONTAL</item>
         <item>ZOOMSLIDEVERTICAL</item>
     </array>
+    <string name="action_remove">Remove</string>
+    <string name="selected_count">%1$s selected</string>
 </resources>

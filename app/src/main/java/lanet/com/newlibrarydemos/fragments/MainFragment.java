@@ -17,6 +17,9 @@ import android.widget.ScrollView;
 import lanet.com.newlibrarydemos.R;
 import lanet.com.newlibrarydemos.views.NotifyingScrollView;
 
+/*
+Fixed All issues in hotfix
+ */
 public class MainFragment extends Fragment
 {
 
