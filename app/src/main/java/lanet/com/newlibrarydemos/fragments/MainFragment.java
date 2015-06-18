@@ -18,8 +18,7 @@ import lanet.com.newlibrarydemos.R;
 import lanet.com.newlibrarydemos.views.NotifyingScrollView;
 
 /*
-
-Make Changes in ActionBar Branch 12
+Fixed All issues in hotfix
  */
 public class MainFragment extends Fragment
 {
